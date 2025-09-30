@@ -1,148 +1,189 @@
-/* Reset dan global */
+/* Global */
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: #121212; 
+  color: #fff;
 }
 
-/* Navigation bar */
+body.index-page {
+  background: #121212;
+  color: #fff;
+}
+
+/* Navbar */
 .navbar {
-  background: rgba(138, 1, 1, 0.7); /* Navbar transparan (merah) */
-  color: rgb(255, 255, 255);
-  padding: 20px 40px; /* Ukuran navbar besar*/
+  background: rgba(138, 1, 1, 0.7);
+  padding: 20px 40px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  backdrop-filter: blur(6px); /* Blur seperti pada website praktikum */
+  align-items: center;
+  backdrop-filter: blur(6px);
+}
+.navbar h1 { 
+  margin: 0; 
+  font-size: 26px; 
 }
 
-/* Judul navbar */
-.navbar h1 {
-  margin: 0;
-  font-size: 26px; /* Ukuran H1 sesuai dengan navbar */
+.navbar ul { 
+  list-style: none; 
+  display: flex; 
+  margin: 0; 
+  padding: 0; 
 }
 
-/* List navbar */
-.navbar ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
+.navbar li { 
+  margin-left: 
+  25px; 
 }
 
-/* Item navbar */
-.navbar li {
-  margin-left: 25px; /* spacing antar items navbar */
-}
-
-/* Link navbar / item */
 .navbar a {
-  color: white;
-  text-decoration: none; /* agar tidak ada underline */
-  font-weight: bold;
+  color: white; 
+  text-decoration: none; 
+  font-weight: bold; 
   font-size: 16px;
-  padding: 10px 0;         
-  border-radius: 0;        
-  position: relative;      
+  position: relative; 
+  padding: 10px 0;
 }
 
-/* Saat terhover atau terklik */
 .navbar a::after {
-  content: "";
-  display: block;
-  height: 3px;
-  width: 0%;
-  background: white;       /* warna underline */
-  transition: width 0.3s;    /* transisi underline */
-  margin-top: 4px;
+  content:""; 
+  display:block; 
+  height:3px; 
+  width:0%; 
+  background:white; 
+  transition: width 0.3s; 
+  margin-top:4px;
 }
 
-/* Saat terhover */
-.navbar a:hover::after {
-  width: 100%;
-}
+.navbar a:hover::after, .navbar a.active::after { width:100%; }
 
-/* Saat terklik */
-.navbar a.active::after {
-  width: 100%;             /* tetap underline saat aktif */
-}
-
-
-/* Search bar */
+/* Search + Dropdown */
 .search-container {
-  display: flex;
-  justify-content: center;
+  display: flex; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+  gap: 10px; 
   margin: 30px 0;
 }
 
-.search-box {
-  position: relative;
-  width: 50%;
-  max-width: 500px;
-}
+.search-box { 
+  position: relative; 
+  width: 50%; 
+  max-width: 500px; }
 
 #search {
+  width: 100%; 
+  padding: 12px 40px 12px 36px; 
+  font-size:16px;
+  border-radius:25px; 
+  border:1px solid #ccc; 
+  outline:none; 
+  background:#1f1f1f; color:white;
+}
+
+.dropdown-box { 
+  position: relative; 
+  width: 250px; }
+
+#province-search {
   width: 100%;
-  padding: 12px 40px 12px 36px; /* TODO: clear */
+  padding: 12px 20px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 25px;
   outline: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: #1f1f1f;
+  color: white;
+  box-sizing: border-box; /* add this */
 }
 
-#search:focus {
-  border-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(101, 8, 2, 0.3);
+.dropdown-list {
+  position: absolute; 
+  top:100%; 
+  left:0; 
+  right:0; 
+  max-height:200px; 
+  overflow-y:auto;
+  background:#1f1f1f; 
+  color:white; 
+  border:1px solid #333; 
+  border-radius:6px; 
+  z-index:100;
+  margin:2px 0 0 0; 
+  padding:0; 
+  list-style:none;
 }
 
-/* Results search */
-.results {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
-  padding: 20px;
-}
-
-/* Kartu untuk grid */
-.card {
-  position: relative;
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-/* Thumbnail makanan */
-.card img.thumb {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-.card h3 {
-  margin: 0;
-}
-
-/* Tombol favorit */
-.favorite {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255,255,255,0.7);
-  border-radius: 50%;
-  border: none;
+.dropdown-list li {
+  padding: 12px 20px; 
   cursor: pointer;
-  font-size: 20px;
+  transition: background 0.2s;
 }
-.favorite.active {
-  color: gold;
+
+.dropdown-list li:hover { 
+  background: rgba(255,255,255,0.1); 
 }
+
+/* Results */
+.results {
+  display:grid; 
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); 
+  gap:15px; 
+  padding:20px;
+}
+
+.card {
+  position: relative; 
+  background:#1f1f1f; 
+  padding:15px; 
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3); 
+  text-align:center;
+  transition: transform 0.2s, box-shadow 0.2s; 
+  cursor:pointer;
+}
+
+.card:hover { 
+  transform: translateY(-5px); 
+  box-shadow:0 10px 20px rgba(0,0,0,0.5); 
+}
+
+.card img.thumb { 
+  width:100%; 
+  height:160px; 
+  object-fit:cover; 
+  border-radius:6px;
+  margin-bottom:10px; }
+
+.card h3 { 
+  margin:0; 
+}
+
+/* Favorite button */
+.favorite {
+  position:absolute; 
+  top:10px; 
+  right:10px; 
+  background:rgba(255,255,255,0.7);
+  border-radius:50%; 
+  border:none; 
+  cursor:pointer; 
+  font-size:20px; 
+  transition:color 0.2s;
+}
+
+.favorite.active { color:gold; }
+.favorite:hover { color:gold; }
+
+/* Footer */
+footer { 
+  text-align:center; 
+  padding:15px; 
+  background:rgba(0,0,0,0.6); 
+  color:white; 
+  margin-top:40px; 
+  font-size:0.9rem; }
 
 /* Cuisine detail page */
 .cuisine-detail {
@@ -181,7 +222,6 @@ body {
   border-radius: 10px;
   margin: 20px 0;
 }
-
 
 /* Back link */
 .back {

@@ -6,7 +6,6 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get("id"); // biarkan string, jangan parseInt
 
 // ambil data makanan dari JSON
-// TODO: database makanan.json
 fetch("makanan.json")
   .then(res => res.json())
   .then(data => {

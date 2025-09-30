@@ -114,3 +114,37 @@ document.addEventListener("DOMContentLoaded", () => {
   navFavs.addEventListener("click", e=>{e.preventDefault(); currentView="favorites"; setActive(navFavs); searchInput.style.display="none"; provinceSearchInput.style.display="none"; renderResults(cuisines.filter(c=>favorites.includes(c.id)));});
   navAbout.addEventListener("click", e=>{e.preventDefault(); currentView="about"; setActive(navAbout); searchInput.style.display="none"; provinceSearchInput.style.display="none"; resultsDiv.innerHTML=`<div style="text-align:center;padding:20px;"><h2>Tentang kami</h2><p>Website ini memamerkan berbagai makanan tradisional dari Indonesia beserta sejarah mereka.</p><p>Indonesia memiliki banyak keunikan dan makanan indonesia adalah salah satu nya, dengan ini kami harap bahwa pengguna dapat melihat betapa banyaknya keberagaman Indonesia</p></div>`;});
 });
+
+// Fungsi untuk membuat intro screen
+const introScreen = document.getElementById("intro-screen");
+function showIntro() {
+  introScreen.style.display = "flex";
+  setTimeout(() => {
+    introScreen.style.opacity = "1"; 
+    document.querySelector("nav").style.display = "none";
+    document.querySelector("main").style.display = "none";
+    document.querySelector("footer").style.display = "none";
+  }, 50);
+}
+
+function hideIntro() {
+  introScreen.style.opacity = "0";
+  setTimeout(() => {
+    introScreen.style.display = "none";
+    document.querySelector("nav").style.display = "flex";
+    document.querySelector("main").style.display = "block";
+    document.querySelector("footer").style.display = "block";
+  }, 800);
+}
+
+// default tampilin intro
+showIntro();
+
+// tombol pada keyboard
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") {
+    hideIntro();
+  } else if (e.key === "ArrowLeft") {
+    showIntro();
+  }
+});

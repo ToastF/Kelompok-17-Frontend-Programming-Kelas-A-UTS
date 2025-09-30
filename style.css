@@ -232,3 +232,13 @@ footer {
   color: #2a629a;
   font-weight: bold;
 }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}

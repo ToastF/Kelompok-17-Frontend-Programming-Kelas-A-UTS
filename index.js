@@ -117,28 +117,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Fungsi untuk membuat intro screen
 const introScreen = document.getElementById("intro-screen");
-function showIntro() {
-  introScreen.style.display = "flex";
-  setTimeout(() => {
-    introScreen.style.opacity = "1"; 
-    document.querySelector("nav").style.display = "none";
-    document.querySelector("main").style.display = "none";
-    document.querySelector("footer").style.display = "none";
-  }, 50);
+
+function showIntro(push = true) {
+  document.body.classList.add("show-intro");
+
+  // tampilkan intro
+  document.getElementById("intro-screen").style.display = "flex";
+  document.getElementById("intro-screen").style.opacity = "1";
+
+  if (push) history.pushState({ page: "intro" }, "Intro", "#intro");
 }
 
-function hideIntro() {
-  introScreen.style.opacity = "0";
-  setTimeout(() => {
-    introScreen.style.display = "none";
-    document.querySelector("nav").style.display = "flex";
-    document.querySelector("main").style.display = "block";
-    document.querySelector("footer").style.display = "block";
-  }, 800);
+function hideIntro(push = true, instant = false) {
+  const intro = document.getElementById("intro-screen");
+
+  if (instant) {
+    intro.style.display = "none"; 
+  } else {
+    intro.style.opacity = "0";
+    setTimeout(() => {
+      intro.style.display = "none"; // ilang setelah animasi
+    }, 800);
+  }
+
+  document.querySelector("nav").style.display = "flex";
+  document.querySelector("main").style.display = "block";
+  document.querySelector("footer").style.display = "block";
+
+  if (push) history.pushState({ page: "main" }, "Main", "#main");
 }
 
-// default tampilin intro
-showIntro();
 
 // tombol pada keyboard
 document.addEventListener("keydown", (e) => {
@@ -146,5 +154,13 @@ document.addEventListener("keydown", (e) => {
     hideIntro();
   } else if (e.key === "ArrowLeft") {
     showIntro();
+  }
+});
+ 
+window.addEventListener("load", () => {
+  if (location.hash === "#main") {
+    hideIntro(false); // langsung main
+  } else {
+    showIntro(false); // default intro
   }
 });

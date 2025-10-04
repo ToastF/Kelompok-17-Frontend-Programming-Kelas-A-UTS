@@ -5,11 +5,20 @@ body {
   padding: 0;
   background: #121212; 
   color: #fff;
+  position: relative;
 }
 
-body.index-page {
-  background: #121212;
-  color: #fff;
+body::before {
+  content: ""; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://bergaya.id/wp-content/uploads/2020/03/Motif-Batik-Solo.jpg');
+  background-repeat: repeat; 
+  opacity: 0.2; 
+  z-index: -1;
 }
 
 /* Navbar */
@@ -34,16 +43,10 @@ body.index-page {
 }
 
 .navbar li { 
-  margin-left: 
-  25px; 
+  margin-left: 25px; 
 }
 
-h1 {
-  font-size: 1.5rem;
-  display: flex;
-}
-
-.typing{
+h1.typing {
   color: #d4ff4d;
   font-weight: bold;
   border-right: 2px solid #d4ff4d;
@@ -155,7 +158,7 @@ h1 {
 /* Results */
 .results {
   display:grid; 
-  grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); 
+  grid-template-columns:repeat(4, 1fr);
   gap:15px; 
   padding:20px;
 }
@@ -166,7 +169,7 @@ h1 {
   padding:15px; 
   border-radius:8px;
   box-shadow:0 2px 6px rgba(0,0,0,0.3); 
-  text-align:center;
+  text-align:justify;
   transition: transform 0.2s, box-shadow 0.2s; 
   cursor:pointer;
 }
@@ -178,13 +181,20 @@ h1 {
 
 .card img.thumb { 
   width:100%; 
-  height:160px; 
+  height:250px; 
   object-fit:cover; 
   border-radius:6px;
   margin-bottom:10px; }
 
 .card h3 { 
   margin:0; 
+  text-align: center;
+}
+
+.card-overlay {
+  position: absolute; 
+  opacity: 0;       
+
 }
 
 /* Favorite button */
@@ -203,15 +213,6 @@ h1 {
 .favorite.active { color:gold; }
 .favorite:hover { color:gold; }
 
-/* Footer */
-footer { 
-  text-align:center; 
-  padding:15px; 
-  background:rgba(0,0,0,0.6); 
-  color:white; 
-  margin-top:40px; 
-  font-size:0.9rem; }
-
 /* Cuisine detail page */
 .cuisine-detail {
   position: relative; 
@@ -223,7 +224,6 @@ footer {
   align-items: center;
 }
 
-/* Overlay background gelap */
 .cuisine-detail::before {
   content: "";
   position: absolute;
@@ -259,46 +259,51 @@ footer {
 }
 
 /* Footer */
-footer {
-  text-align: center;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  margin-top: 40px;
-  font-size: 0.9rem;
+footer { 
+  text-align:center; 
+  padding:15px; 
+  background:rgba(0,0,0,0.6); 
+  color:white; 
+  margin-top:40px; 
+  font-size:0.9rem; 
 }
 
 #intro-screen {
   position: fixed;
-  display: none;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
   background-size: cover;
+  background-position: center;
   color: whitesmoke;
-  display: none;
+  display: none; /* Akan diubah oleh JS */
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index: 9999;
   text-align: center;
   opacity: 0;
-  transition: opacity 0.8s ease;
-  z-index: 9999;   
+  z-index: 9999;
+  transition: opacity 0.8s ease, background-image 0.9s ease-in-out;
 }
 
-#intro-screen p{
-  color: yellow;
-  font-weight: bold;
-  font-style: italic;
+/* Overlay gelap agar teks mudah dibaca */
+#intro-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
-body.show-intro #intro-screen {
-  display: flex; 
-  opacity: 1;
+#intro-screen .intro-content {
+  position: relative;
+  z-index: 2;
 }
+
 
 #intro-screen h1 {
   font-size: 2.5rem;
@@ -311,14 +316,18 @@ body.show-intro #intro-screen {
 
 #intro-screen .hint {
   margin-top: 20px;
-  font-style: italic;
   opacity: 0.8;
+  color: white; /* Mungkin lebih baik putih agar kontras */
 }
 
-/* menyembunyikan konten utama*/
+body.show-intro #intro-screen {
+  display: flex; 
+  opacity: 1;
+}
+
+/* Menyembunyikan konten utama saat intro tampil */
 body.index-page nav,
 body.index-page main,
 body.index-page footer {
   display: none;
 }
-

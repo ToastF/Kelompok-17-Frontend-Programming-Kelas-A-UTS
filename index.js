@@ -18,11 +18,13 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(changeBackgroundImage, 5000);
   }
   
+  // Inisialisasi variabel
   let cuisines = [];
   let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   let currentView = "home";
   let selectedProvince = "";
 
+  // Mengambil elemen-elemen dari DOM
   const resultsDiv = document.getElementById("results");
   const searchInput = document.getElementById("search");
   const provinceSearchInput = document.getElementById("province-search");
@@ -31,14 +33,85 @@ document.addEventListener("DOMContentLoaded", () => {
   const navFavs = document.getElementById("nav-favorites");
   const navAbout = document.getElementById("nav-about");
 
+  // Logika untuk Hero Slideshow
+  const heroSection = document.getElementById('hero');
+  const heroContent = document.querySelector('#hero .hero-content');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+
+  let featuredFoods = [];
+  let currentFeaturedIndex = 0;
+  let heroInterval;
+
+  // Fungsi untuk mengupdate konten hero section
+  function updateHeroSection() {
+    if (featuredFoods.length === 0) return;
+    const food = featuredFoods[currentFeaturedIndex];
+    heroSection.style.backgroundImage = `url('${food.gambar}')`;
+    heroContent.innerHTML = `
+      <h2>${food.nama}</h2>
+      <p>${food.deskripsi}</p>
+      <a href="detail.html?id=${food.id}" class="hero-button">Lihat Sejarahnya</a>
+    `;
+  }
+
+  // Fungsi untuk memulai interval slideshow otomatis
+  function startHeroInterval() {
+    clearInterval(heroInterval); 
+    heroInterval = setInterval(() => {
+      currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
+      updateHeroSection();
+    }, 4000); // Ganti setiap 4 detik
+  }
+
+  // Fungsi untuk mereset interval (saat panah diklik)
+  function resetHeroInterval() {
+    clearInterval(heroInterval);
+    startHeroInterval();
+  }
+
+  // Fungsi untuk menampilkan makanan berikutnya
+  function showNextFood() {
+    currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
+    updateHeroSection();
+  }
+
+  // Fungsi untuk menampilkan makanan sebelumnya
+  function showPrevFood() {
+    // Logika modulus untuk looping array ke belakang
+    currentFeaturedIndex = (currentFeaturedIndex - 1 + featuredFoods.length) % featuredFoods.length;
+    updateHeroSection();
+  }
+
+  // Tambahkan event listener untuk tombol panah
+  nextBtn.addEventListener('click', () => {
+    showNextFood();
+    resetHeroInterval();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    showPrevFood();
+    resetHeroInterval();
+  });
+
+  // Mengambil data makanan dari file JSON
   fetch("makanan.json")
     .then(res => res.json())
     .then(data => {
       cuisines = data;
       renderResults(cuisines);
-      populateProvinceDropdown(); 
+      populateProvinceDropdown();
+
+      const featuredIds = ["rendang", "bubur pedas", "karedok", "bubur manado", "mie aceh"];
+      featuredFoods = cuisines.filter(c => featuredIds.includes(c.id));
+      
+      if (featuredFoods.length > 0) {
+        updateHeroSection(); // Tampilkan makanan pertama
+        startHeroInterval(); // Mulai slideshow otomatis
+      }
     });
 
+  // Fungsi untuk menampilkan kartu-kartu makanan
   function renderResults(list) {
     resultsDiv.innerHTML = "";
     list.forEach(c => {
@@ -46,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.className = "card";
 
       card.addEventListener("click", e => {
-        if (e.target.classList.contains("favorite")) return; 
+        if (e.target.classList.contains("favorite")) return;
         window.location.href = `detail.html?id=${c.id}`;
       });
 
@@ -66,11 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
     bindFavoriteButtons();
   }
 
-  
+  // Fungsi untuk menangani klik tombol favorit
   function bindFavoriteButtons() {
     document.querySelectorAll(".favorite").forEach(btn => {
       btn.addEventListener("click", e => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         const id = btn.getAttribute("data-id");
         
         if (favorites.includes(id)) {
@@ -90,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Fungsi untuk memfilter makanan
   function filterCuisines() {
     const query = searchInput.value.toLowerCase();
     const filtered = cuisines.filter(c => {
@@ -130,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const query = provinceSearchInput.value.toLowerCase();
     if (query === "") {
         selectedProvince = "";
-        populateProvinceDropdown(); 
+        populateProvinceDropdown();
     } else {
         const filteredProvinces = getProvinces().filter(p => p.toLowerCase().includes(query));
         renderProvinceDropdown(filteredProvinces);
@@ -148,7 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".navbar a").forEach(a => a.classList.remove("active"));
     link.classList.add("active");
   }
-
 
   navHome.addEventListener("click", e => { 
     e.preventDefault(); 

@@ -204,6 +204,7 @@ h1.typing {
 .hero-content {
   position: relative;
   z-index: 2;
+  margin: 1.5rem;
   color: white;
   max-width: 600px;
 }
@@ -232,6 +233,41 @@ h1.typing {
 .hero-button:hover {
   background-color: #b30101;
   transform: translateY(-3px);
+}
+
+.hero-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3; /* Pastikan di atas overlay */
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  transition: background-color 0.3s, transform 0.3s;
+  -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru di mobile */
+}
+
+.hero-nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 20px;
+}
+
+.next-btn {
+  right: 20px;
 }
 
 /* Search + Dropdown */

@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <title>Makanan Tradisional Indonesia</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@700&display=swap" rel="stylesheet">
 </head>
-<body class="index-page">
-  <section id="intro-screen">
-    <div class="intro-content">
+<body>
+  <section id="landing-page">
+    <div class="landing-content">
       <h1>Makanan Tradisional Indonesia</h1>
-      <p>Dibuat untuk mengenal sejarah kuliner Nusantara 🍽️</p>
-      <p class="hint">Tekan panah kanan pada keyboard anda  ➡️ untuk mulai</p>
+      <p>Mengenal Sejarah dan Kelezatan Kuliner Nusantara 🍽️</p>
+      <a href="#main-content" class="scroll-down-btn">Jelajahi Sekarang</a>
     </div>
   </section>
 
@@ -26,16 +26,27 @@
     </ul>
   </nav>
 
-  <main id="content">
+  <main id="main-content">
+    <section id="hero">
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <h2>Rendang</h2>
+          <p>Dinobatkan sebagai salah satu hidangan terlezat di dunia, rendang adalah simbol kekayaan rempah dan budaya Minangkabau.</p>
+          <a href="detail.html?id=rendang" class="hero-button">Lihat Sejarahnya</a>
+        </div>
+      </div>
+    </section>
+
     <div class="search-container">
       <div class="search-box">
-        <input type="text" id="search" placeholder="Search food..." autocomplete="off">
+        <input type="text" id="search" placeholder="Cari makanan..." autocomplete="off">
       </div>
       <div class="dropdown-box">
-        <input type="text" id="province-search" placeholder="Filter by province" autocomplete="off">
+        <input type="text" id="province-search" placeholder="Filter berdasarkan provinsi" autocomplete="off">
         <ul id="province-list" class="dropdown-list"></ul>
       </div>
     </div>
+    
     <div id="results" class="results"></div>
   </main>
 

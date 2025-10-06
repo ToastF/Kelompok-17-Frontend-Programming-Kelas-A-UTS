@@ -1,50 +1,96 @@
-// collection semua makanan favorit
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const detailContainer = document.getElementById("cuisine-detail");
 
-// ambil id (makanan) dari URL (?id=mie aceh)
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id"); // biarkan string, jangan parseInt
+  fetch("makanan.json")
+    .then(res => res.json())
+    .then(data => {
+      const cuisine = data.find(c => c.id === id);
 
-// ambil data makanan dari JSON
-fetch("makanan.json")
-  .then(res => res.json())
-  .then(data => {
-    const cuisine = data.find(c => c.id === id);
-    if (!cuisine) {
-      document.getElementById("cuisine-detail").innerHTML = "<p>505 Not found</p>";
-      return;
-    }
+      if (!cuisine) {
+        detailContainer.innerHTML = "<p>Makanan tidak ditemukan.</p>";
+        return;
+      }
 
-    document.getElementById("cuisine-detail").innerHTML = `
-      <div class="cuisine-detail" style="background-image: url('${cuisine.BG}')">
-        <div class="overlay">
-          <h1>${cuisine.nama}</h1>
-          <img src="${cuisine.gambar}" alt="${cuisine.nama}" class="detail-photo">
-          <p>${cuisine.sejarah}</p>
-          <button id="fav-btn" class="favorite ${favorites.includes(cuisine.id) ? "active" : ""}">
-            ${favorites.includes(cuisine.id) ? "★" : "☆"}
-          </button>
-        </div>
-      </div>
-    `;
+      // Hapus konten lama untuk mencegah tumpang tindih
+      detailContainer.innerHTML = '';
 
-    // add eventlistener pada tombol favorit
-    document.getElementById("fav-btn").addEventListener("click", () => {
-      toggleFavorite(cuisine.id);
+      //Latar Belakang Utama
+      const detailView = document.createElement('div');
+      detailView.className = 'cuisine-detail';
+      detailView.style.backgroundImage = `url('${cuisine.BG}')`;
+      // untuk buat kotak model
+      const modal = document.createElement('div');
+      modal.className = 'detail-modal';
+
+      // tombol x 
+      const backButton = document.createElement('a');
+      backButton.href = 'index.html#main-content';
+      backButton.className = 'back-button';
+      backButton.innerHTML = '×';
+      modal.appendChild(backButton);
+
+      // Buat Wrapper 
+      const wrapper = document.createElement('div');
+      wrapper.className = 'detail-content-wrapper';
+
+      // Kolom Gambar dan masukkan ke Wrapper
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'detail-image-container';
+      const image = document.createElement('img');
+      image.src = cuisine.gambar;
+      image.alt = cuisine.nama;
+      image.className = 'detail-photo';
+      imageContainer.appendChild(image);
+      wrapper.appendChild(imageContainer);
+
+      // untuk poin2
+      const textContainer = document.createElement('div');
+      textContainer.className = 'detail-text-container';
+      
+      const title = document.createElement('h1');
+      title.textContent = cuisine.nama;
+      textContainer.appendChild(title);
+
+      const statGrid = document.createElement('div');
+      statGrid.className = 'stat-grid';
+      // Poin-poin info dimasukkan ke dalam statGrid
+      const lokasiItem = document.createElement('div');
+      lokasiItem.className = 'stat-item';
+      lokasiItem.innerHTML = `<span>Lokasi</span><strong>${cuisine.provinsi}</strong>`;
+      statGrid.appendChild(lokasiItem);
+      
+      const ciriKhas = cuisine.deskripsi.split('.')[0];
+      const ciriKhasItem = document.createElement('div');
+      ciriKhasItem.className = 'stat-item';
+      ciriKhasItem.innerHTML = `<span>Ciri Khas</span><strong>${ciriKhas}</strong>`;
+      statGrid.appendChild(ciriKhasItem);
+      
+      const faktaMenarik = cuisine.sejarah.split('.')[0] + '.';
+      const asalUsulItem = document.createElement('div');
+      asalUsulItem.className = 'stat-item';
+      asalUsulItem.innerHTML = `<span>Asal Usul</span><strong>${faktaMenarik}</strong>`;
+      statGrid.appendChild(asalUsulItem);
+      
+      textContainer.appendChild(statGrid);
+      wrapper.appendChild(textContainer);
+
+      // untuk tite
+      const historyTitle = document.createElement('h3');
+      historyTitle.className = 'history-title';
+      historyTitle.textContent = 'Asal-usul Lengkap: ';
+      wrapper.appendChild(historyTitle);
+      
+      // sejarah lengkap
+      const fullDescription = document.createElement('p');
+      fullDescription.className = 'full-description';
+      fullDescription.textContent = cuisine.sejarah;
+      wrapper.appendChild(fullDescription);
+
+     //masukan isi 
+      modal.appendChild(wrapper);
+      detailView.appendChild(modal);
+      detailContainer.appendChild(detailView);
     });
-  });
-
-// mengubah state favorit dari makanan yang dituju
-function toggleFavorite(id) {
-  const btn = document.getElementById("fav-btn");
-  if (favorites.includes(id)) {
-    favorites = favorites.filter(f => f !== id);
-    btn.innerHTML = "☆";
-    btn.classList.remove("active");
-  } else {
-    favorites.push(id);
-    btn.innerHTML = "★";
-    btn.classList.add("active");
-  }
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-}
+});

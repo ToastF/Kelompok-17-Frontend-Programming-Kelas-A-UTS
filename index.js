@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     heroInterval = setInterval(() => {
       currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
       updateHeroSection();
-    }, 4000); // Ganti setiap 4 detik
+    }, 2000);
   }
 
   // Fungsi untuk mereset interval (saat panah diklik)
@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     startHeroInterval();
   }
 
-  // Fungsi untuk menampilkan makanan berikutnya
   function showNextFood() {
     currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
     updateHeroSection();
@@ -100,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       cuisines = data;
       renderResults(cuisines);
-      populateProvinceDropdown();
 
       const featuredIds = ["rendang", "bubur pedas", "karedok", "bubur manado", "mie aceh"];
       featuredFoods = cuisines.filter(c => featuredIds.includes(c.id));

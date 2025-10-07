@@ -336,4 +336,178 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('.search-container').style.display = "none"; 
     renderResults(cuisines.filter(c => favorites.includes(c.id))); 
   });
+
+  // LOCAL
+  // init
+  async function loadInitialCuisines() {
+    const stored = localStorage.getItem('cuisines');
+    if (stored) {
+      cuisines = JSON.parse(stored);
+    } else {
+      const response = await fetch('data/makanan.json');
+      cuisines = await response.json();
+      localStorage.setItem('cuisines', JSON.stringify(cuisines));
+    }
+
+    // Jika terjadi error saat fetch image, reload
+    cuisines.forEach(c => {
+      const img = new Image();
+      img.onerror = () => {
+        console.warn(`Image failed for ${c.nama}, reloading data...`);
+        localStorage.removeItem('cuisines');
+        location.reload();
+      };
+      img.src = c.gambar;
+    });
+  }
+  
+
+  function getCuisines() {
+    return JSON.parse(localStorage.getItem('cuisines')) || [];
+  }
+
+  function saveCuisines(cuisines) {
+    localStorage.setItem('cuisines', JSON.stringify(cuisines));
+  }
+
+  function addCuisine(newCuisine) {
+    const cuisines = getCuisines();
+    cuisines.push(newCuisine);
+    saveCuisines(cuisines);
+  }
+
+  function deleteCuisine(id) {
+    let cuisines = getCuisines();
+    cuisines = cuisines.filter(c => c.id !== id);
+    saveCuisines(cuisines);
+  }
+
+  function updateCuisine(id, updatedFields) {
+    let cuisines = getCuisines();
+    cuisines = cuisines.map(c => 
+      c.id === id ? { ...c, ...updatedFields } : c
+    );
+    saveCuisines(cuisines);
+  }
+
+  // Untuk menutup modal
+  document.getElementById("cancel-modal").addEventListener("click", closeModal);
+  
+  // Untuk dropdown add/edit modal
+  const provinces = [
+      "Nanggroe Aceh Darussalam", "Sumatera Utara", "Sumatera Barat", "Riau", "Kepulauan Riau", 
+      "Jambi", "Sumatera Selatan", "Bengkulu", "Lampung", 
+      "Kepulauan Bangka Belitung", "DKI Jakarta", "Jawa Barat", "Banten", 
+      "Jawa Tengah", "DI Yogyakarta", "Jawa Timur", 
+      "Bali", "Nusa Tenggara Barat", "Nusa Tenggara Timur", 
+      "Kalimantan Barat", "Kalimantan Tengah", "Kalimantan Selatan", 
+      "Kalimantan Timur", "Kalimantan Utara", 
+      "Sulawesi Utara", "Gorontalo", "Sulawesi Tengah", "Sulawesi Barat", 
+      "Sulawesi Selatan", "Sulawesi Tenggara", 
+      "Maluku", "Maluku Utara", 
+      "Papua", "Papua Tengah", "Papua Pegunungan", 
+      "Papua Selatan", "Papua Barat", "Papua Barat Daya"
+    ];
+
+    const provinceSelect = document.getElementById("food-province");
+    provinces.forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p;
+      opt.textContent = p;
+      provinceSelect.appendChild(opt);
+    });
+
+  // untuk membuka modal
+  function openDialog(isAdd = false) {
+    const title = document.getElementById("modal-title");
+
+    if (isAdd) {
+      document.getElementById("food-name").value = "";
+      document.getElementById("food-desc").value = "";
+      document.getElementById("food-province").value = "";
+      document.getElementById("food-history").value = "";
+      document.getElementById("food-image").value = "";
+      document.getElementById("food-background").value = "";
+
+      delete modal.dataset.editingId;
+
+      title.textContent = "Tambah Makanan";
+    }
+
+    modal.classList.remove("hidden");
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+  }
+
+  document.getElementById("save-food").addEventListener("click", async () => {
+    const name = document.getElementById("food-name").value.trim();
+    const desc = document.getElementById("food-desc").value.trim();
+    const province = document.getElementById("food-province").value.trim();
+    const history = document.getElementById("food-history").value.trim();   
+    const imgFile = document.getElementById("food-image").files[0];
+    const bgFile = document.getElementById("food-background").files[0];
+    const editingId = modal.dataset.editingId; 
+    const cuisines = getCuisines();
+
+
+    if (!name || !desc || !province || !history || (!editingId && (!imgFile || !bgFile))) {
+      alert("Semua informasi harus terisi!");
+      return;
+    }
+
+    // untuk save image
+    const toBase64 = file => new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload = () => res(reader.result);
+      reader.onerror = err => rej(err);
+      reader.readAsDataURL(file);
+    });
+
+    const imageBase64 = imgFile ? await toBase64(imgFile) : "";
+    const bgBase64 = bgFile ? await toBase64(bgFile) : "";
+
+    if (editingId) {
+      // if edit
+      const oldCuisine = cuisines.find(c => c.id === editingId);
+      
+      updateCuisine(editingId, {
+        nama: name,
+        deskripsi: desc,
+        provinsi: province,
+        gambar: imgFile ? imageBase64 : oldCuisine.gambar,    
+        background: bgFile ? bgBase64 : oldCuisine.background,
+        sejarah: history
+      });
+    } else {
+      // if add
+      // cek jika pernah dimasukkan
+      const nameExists = cuisines.some(
+        c => c.nama.toLowerCase() === name.toLowerCase()
+      );
+
+      if (nameExists) {
+        alert("Nama makanan sudah ada! Gunakan nama lain.");
+        return;
+      }
+
+      const newItem = {
+        id: name.toLowerCase().replace(/\s+/g, "-"),
+        nama: name,
+        deskripsi: desc,
+        provinsi: province,
+        gambar: imageBase64,
+        background: bgBase64,
+        sejarah: history
+      };
+      addCuisine(newItem);
+    }
+
+    const updated = getCuisines();
+    delete modal.dataset.editingId;
+    closeModal();
+    renderResults(updated);
+  });
+  
 });

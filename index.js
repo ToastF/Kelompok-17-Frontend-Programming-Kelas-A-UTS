@@ -337,8 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderResults(cuisines.filter(c => favorites.includes(c.id))); 
   });
 
-
-
   // LOCAL
   // init
   async function loadInitialCuisines() {

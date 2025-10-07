@@ -167,6 +167,37 @@ body::before {
   margin-left: 25px;
 }
 
+/* Styling untuk page Tentang Kami */
+.about-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(42, 42, 42, 0.5); 
+  border-radius: 12px;
+  color: #EAEAEA;
+}
+
+.about-container h1 {
+  font-family: 'Lora', serif;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+}
+
+.about-container video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.about-container p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
 h1.typing {
   color: white;
   font-weight: bold;

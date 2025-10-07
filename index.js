@@ -1,19 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const landingPageElement = document.getElementById('landing-page');
   if (landingPageElement) {
-    const images = [
-      'images/makanan.jpg', 
-      'images/makanan2.jpg',
-      'images/makanan3.jpg',
-    ];
-
+    const images = ['images/makanan.jpg', 'images/makanan2.jpg', 'images/makanan3.jpg'];
     let currentImageIndex = 0;
-
     function changeBackgroundImage() {
       landingPageElement.style.backgroundImage = `url('${images[currentImageIndex]}')`;
       currentImageIndex = (currentImageIndex + 1) % images.length;
     }
-
     changeBackgroundImage();
     setInterval(changeBackgroundImage, 5000);
   }
@@ -43,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentFeaturedIndex = 0;
   let heroInterval;
 
-  // Fungsi untuk mengupdate konten hero section
   function updateHeroSection() {
     if (featuredFoods.length === 0) return;
     const food = featuredFoods[currentFeaturedIndex];
@@ -54,35 +46,17 @@ document.addEventListener("DOMContentLoaded", () => {
       <a href="detail.html?id=${food.id}" class="hero-button">Lihat Sejarahnya</a>
     `;
   }
-
-  // Fungsi untuk memulai interval slideshow otomatis
-  function startHeroInterval() {
-    clearInterval(heroInterval); 
-    heroInterval = setInterval(() => {
-      currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
-      updateHeroSection();
-    }, 2000);
-  }
-
-  // Fungsi untuk mereset interval (saat panah diklik)
-  function resetHeroInterval() {
-    clearInterval(heroInterval);
-    startHeroInterval();
-  }
-
+  
   function showNextFood() {
     currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
     updateHeroSection();
   }
 
-  // Fungsi untuk menampilkan makanan sebelumnya
   function showPrevFood() {
-    // Logika modulus untuk looping array ke belakang
     currentFeaturedIndex = (currentFeaturedIndex - 1 + featuredFoods.length) % featuredFoods.length;
     updateHeroSection();
   }
 
-  // Tambahkan event listener untuk tombol panah
   nextBtn.addEventListener('click', () => {
     showNextFood();
     resetHeroInterval();
@@ -100,50 +74,57 @@ document.addEventListener("DOMContentLoaded", () => {
       cuisines = data;
       renderResults(cuisines);
 
-      const featuredIds = ["rendang", "bubur pedas", "karedok", "bubur manado", "mie aceh"];
+      const featuredIds = ["rendang", "mie aceh", "bubur pedas", "karedok", "bubur manado"];
       featuredFoods = cuisines.filter(c => featuredIds.includes(c.id));
       
       if (featuredFoods.length > 0) {
-        updateHeroSection(); // Tampilkan makanan pertama
-        startHeroInterval(); // Mulai slideshow otomatis
+        updateHeroSection();
+        startHeroInterval();
       }
     });
 
-  // Fungsi untuk menampilkan kartu-kartu makanan
+  //untuk mengatur kecepatan 1 ke slide lain
+  function startHeroInterval() {
+    clearInterval(heroInterval); 
+    heroInterval = setInterval(() => {
+      currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredFoods.length;
+      updateHeroSection();
+    }, 2000);
+  }
+
+  function resetHeroInterval() {
+    clearInterval(heroInterval);
+    startHeroInterval();
+  }
+
+
   function renderResults(list) {
     resultsDiv.innerHTML = "";
     list.forEach(c => {
       const card = document.createElement("div");
       card.className = "card";
-
       card.addEventListener("click", e => {
         if (e.target.classList.contains("favorite")) return;
         window.location.href = `detail.html?id=${c.id}`;
       });
-
       card.innerHTML = `
         <button class="favorite ${favorites.includes(c.id) ? "active" : ""}" data-id="${c.id}">★</button>
         <img src="${c.gambar}" class="thumb" alt="${c.nama}">
-        
         <div class="card-content">
           <h3>${c.nama}</h3>
-          <p class="card-province">${c.provinsi}</p> 
+          <p class="card-province">${c.provinsi || 'Tidak ada provinsi'}</p> 
         </div>
       `;
-
       resultsDiv.appendChild(card);
     });
-
     bindFavoriteButtons();
   }
 
-  // Fungsi untuk menangani klik tombol favorit
   function bindFavoriteButtons() {
     document.querySelectorAll(".favorite").forEach(btn => {
       btn.addEventListener("click", e => {
         e.stopPropagation();
         const id = btn.getAttribute("data-id");
-        
         if (favorites.includes(id)) {
           favorites = favorites.filter(f => f !== id);
           btn.classList.remove("active");
@@ -151,9 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
           favorites.push(id);
           btn.classList.add("active");
         }
-        
         localStorage.setItem("favorites", JSON.stringify(favorites));
-
         if (currentView === "favorites") {
           renderResults(cuisines.filter(c => favorites.includes(c.id)));
         }
@@ -161,12 +140,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Fungsi untuk memfilter makanan
+  // Fungsi untuk search
   function filterCuisines() {
     const query = searchInput.value.toLowerCase();
     const filtered = cuisines.filter(c => {
       const nameMatch = c.nama.toLowerCase().includes(query);
-      const provinceMatch = !selectedProvince || c.provinsi.toLowerCase() === selectedProvince.toLowerCase();
+      const provinceMatch = !selectedProvince || (c.provinsi && c.provinsi.trim().toLowerCase().startsWith(selectedProvince.trim().toLowerCase()));
+      
       return nameMatch && provinceMatch;
     });
     renderResults(filtered);
@@ -175,7 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("input", filterCuisines);
 
   function getProvinces() {
-    return [...new Set(cuisines.map(c => c.provinsi))].sort(); 
+    // Filter data yang tidak punya provinsi agar tidak muncul di dropdown
+    return [...new Set(cuisines.filter(c => c.provinsi).map(c => c.provinsi))].sort(); 
   }
 
   function renderProvinceDropdown(provinces) {
@@ -199,15 +180,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   provinceSearchInput.addEventListener('input', () => {
-    const query = provinceSearchInput.value.toLowerCase();
-    if (query === "") {
-        selectedProvince = "";
-        populateProvinceDropdown();
-    } else {
-        const filteredProvinces = getProvinces().filter(p => p.toLowerCase().includes(query));
-        renderProvinceDropdown(filteredProvinces);
-    }
-    filterCuisines();
+    const query = provinceSearchInput.value;
+    selectedProvince = query; // Langsung update filter
+    
+    const filteredProvinces = getProvinces().filter(p => p.toLowerCase().includes(query.toLowerCase()));
+    renderProvinceDropdown(filteredProvinces);
+    
+    filterCuisines(); // Jalankan filter utama
   });
 
   provinceSearchInput.addEventListener('focus', populateProvinceDropdown);
@@ -222,25 +201,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   navHome.addEventListener("click", e => { 
-    e.preventDefault(); 
-    currentView = "home"; 
-    setActive(navHome); 
+    e.preventDefault(); currentView = "home"; setActive(navHome); 
     document.querySelector('.search-container').style.display = "flex"; 
     renderResults(cuisines); 
   });
   
   navFavs.addEventListener("click", e => { 
-    e.preventDefault(); 
-    currentView = "favorites"; 
-    setActive(navFavs); 
+    e.preventDefault(); currentView = "favorites"; setActive(navFavs); 
     document.querySelector('.search-container').style.display = "none"; 
     renderResults(cuisines.filter(c => favorites.includes(c.id))); 
   });
   
   navAbout.addEventListener("click", e => { 
-    e.preventDefault(); 
-    currentView = "about"; 
-    setActive(navAbout); 
+    e.preventDefault(); currentView = "about"; setActive(navAbout); 
     document.querySelector('.search-container').style.display = "none"; 
     resultsDiv.innerHTML = `<div style="text-align:center;padding:40px 20px;"><h2>Tentang Kami</h2><p style="max-width: 600px; margin: auto; line-height: 1.6;">Website ini memamerkan berbagai makanan tradisional dari Indonesia beserta sejarah mereka. Indonesia memiliki banyak keunikan dan makanan indonesia adalah salah satu nya, dengan ini kami harap bahwa pengguna dapat melihat betapa banyaknya keberagaman Indonesia</p></div>`; 
   });

@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // tombol x 
       const backButton = document.createElement('a');
-      backButton.href = 'index.html#main-content';
+      backButton.href = 'index.html#hero';
       backButton.className = 'back-button';
       backButton.innerHTML = '×';
       modal.appendChild(backButton);

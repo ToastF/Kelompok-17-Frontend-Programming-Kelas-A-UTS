@@ -49,6 +49,26 @@
     <div id="results" class="results"></div>
   </main>
 
+  <div id="crud-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="modal-title">Tambah Makanan</h3>
+      <input type="text" id="food-name" placeholder="Nama makanan">
+      <textarea id="food-desc" placeholder="Deskripsi"></textarea>
+      <select id="food-province" required>
+        <option value="">-- Pilih Provinsi --</option>
+      </select>
+      <label>Gambar:</label>
+      <input type="file" id="food-image">
+      <label>Background:</label>
+      <input type="file" id="food-background">
+      <textarea id="food-history" placeholder="Sejarah makanan"></textarea>
+      <div class="modal-actions">
+        <button id="save-food">Simpan</button>
+        <button id="cancel-modal">Batal</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>© 2025 Website Kuliner Indonesia | Dibuat untuk anak bangsa Indonesia untuk mengenal sejarah makanan dari Tanah Air Tercinta</p>
   </footer>

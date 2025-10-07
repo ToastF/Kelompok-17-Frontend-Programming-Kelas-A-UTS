@@ -247,6 +247,7 @@
     "nama":"Bubur Manado",
     "deskripsi":"Perpaduan Berbagai Macam Sayuran dan Umbi, Aroma Khas dari Daun Kemangi dan Serai, Penggunaan Daun Gedi Tidak Mengandung Daging  dan Disajikan dengan Pelengkap yang Kontras",
     "gambar":"https://lifestyle.haluan.co/wp-content/uploads/2024/11/bubur-manado.webp",
+    "provinsi": "Sulawesi Utara",
     "BG":"https://tse4.mm.bing.net/th/id/OIP.vl_7818Y7wHS0TJH9ixG_AHaEK?pid=Api&h=220&P=0",
     "sejarah":"Bubur Manado, atau yang dikenal juga dengan nama Tinutuan, adalah hidangan khas dari Manado, Sulawesi Utara, Indonesia. Hidangan ini memiliki sejarah yang kaya dan mencerminkan perpaduan budaya serta pengaruh dari berbagai komunitas yang telah menetap di wilayah tersebut. Bubur Manado memiliki akar sejarah yang erat dengan kebudayaan masyarakat Minahasa. Tinutuan mulai populer sejak tahun 1970-an dan sering disebut sebagai makanan rakyat. Nama “tinutuan” sendiri berasal  dari bahasa daerah yang berarti campuran berbagai bahan. Hal ini sesuai dengan komposisinya yang beragam, seperti beras, labu kuning, bayam, kangkung, jagung dan singkong. Awalnya, bubur ini dibuat sebagai makanan sehari-hari karena bahan-bahannya mudah ditemukan dan terjangkau.  Namun, seiring berjalannya waktu, bubur Manado menjadi salah satu ikon kuliner Sulawesi Utara yang terkenal hingga ke mancanegara. "
   },
@@ -281,6 +282,7 @@
     "id":"papeda",
     "nama":"Papeda",
     "deskripsi":"Bahan Utama Tepung Sagu, Tekstur Unik Seperti Lem, dan rasa yang tawar",
+    "provinsi":"Papua",
     "gambar":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Papeda%2C_Kuah_Kuning%2C_Ikan_Tude_Bakar_2.jpg/500px-Papeda%2C_Kuah_Kuning%2C_Ikan_Tude_Bakar_2.jpg",
     "BG":"https://www.nesabamedia.com/wp-content/uploads/2019/04/rumah-adat-maluku-baileo.jpg",
     "sejarah":" Di berbagai wilayah pesisir dan dataran rendah di Papua, sagu merupakan bahan dasar dalam berbagai makanan. Sagu bakar, sagu lempeng, dan sagu bola menjadi sajian yang paling banyak dikenal di berbagai pelosok Papua, khususnya dalam tradisi kuliner masyarakat adat di Kabupaten Mappi, Asmat, hingga Mimika. Papeda merupakan salah satu sajian khas sagu yang sangat gampang sekali ditemukan terutama di Wilayah Maluku dan Papua.  Antropolog sekaligus Ketua Lembaga Riset Papua, Johszua Robert Mansoben, menyatakan bahwa papeda dikenal lebih luas dalam tradisi masyarakat adat Sentani di Danau Sentani, Taikat di Arso, serta Manokwari."
@@ -288,6 +290,7 @@
   {
     "id":"ikan cakalang asar",
     "nama":"Ikan Cakalang Asar",
+    "provinsi":"Papua barat",
     "deskripsi":"Proses Pengasapan (Asar) yang Unik, Tekstur Daging yang Kering dan Padat,Aroma Smoky (Asap) yang Sangat Kuat, dan Rasa Gurih Alami yang Pekat",
     "gambar":"https://img-global.cpcdn.com/recipes/5ca41c6dab7d8cdb/680x964cq70/ikan-cakalang-asapasar-colo-colo-khas-maluku-foto-resep-utama.jpg",
     "BG":"https://tse1.mm.bing.net/th/id/OIP.ICO2JlPA2TSDdzMacjLKBwHaE0?pid=Api&h=220&P=0",
@@ -324,6 +327,7 @@
     "id":"kue lontar",
     "nama":"Kue Lontar",  
     "deskripsi":"Mirip Pie Susu tapi Berukuran Besar, Perpaduan Tekstur Renyah dan Lembut, Isian Fla Susu yang Manis dan Legit",
+    "provinsi":"Papua Selatan",
     "gambar":"https://i0.wp.com/resepkoki.id/wp-content/uploads/2022/01/Kue-Lontar-Papua.jpg?fit=400%2C533&ssl=1",
     "BG":"https://tse2.mm.bing.net/th/id/OIP.4R1RQqUr-t7uTYsTXi2xEAHaEK?pid=Api&h=220&P=0",
     "sejarah":"Kue Lontar sebenarnya merupakan adaptasi dari kue kolonial Belanda bernama klappertaart (klapper = kelapa, taart = kue/tart). Saat masa kolonial, Belanda banyak memperkenalkan teknik memanggang kue dengan oven ke wilayah timur Indonesia, terutama di Ambon, Manado, dan kemudian Papua. Dari situlah masyarakat Papua mengembangkan resep sederhana dengan bahan lokal, lalu lahirlah kue lontar.Saat masa kolonial, Belanda banyak memperkenalkan teknik memanggang kue dengan oven ke wilayah timur Indonesia, terutama di Ambon, Manado, dan kemudian Papua.Dari situlah masyarakat Papua mengembangkan resep sederhana dengan bahan lokal, lalu lahirlah kue lontar."

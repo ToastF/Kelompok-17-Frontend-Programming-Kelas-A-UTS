@@ -339,7 +339,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
   // LOCAL
   // init
   async function loadInitialCuisines() {

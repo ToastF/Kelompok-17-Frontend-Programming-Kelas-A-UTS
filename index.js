@@ -211,10 +211,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('.search-container').style.display = "none"; 
     renderResults(cuisines.filter(c => favorites.includes(c.id))); 
   });
-  
-  navAbout.addEventListener("click", e => { 
-    e.preventDefault(); currentView = "about"; setActive(navAbout); 
-    document.querySelector('.search-container').style.display = "none"; 
-    resultsDiv.innerHTML = `<div style="text-align:center;padding:40px 20px;"><h2>Tentang Kami</h2><p style="max-width: 600px; margin: auto; line-height: 1.6;">Website ini memamerkan berbagai makanan tradisional dari Indonesia beserta sejarah mereka. Indonesia memiliki banyak keunikan dan makanan indonesia adalah salah satu nya, dengan ini kami harap bahwa pengguna dapat melihat betapa banyaknya keberagaman Indonesia</p></div>`; 
-  });
 });

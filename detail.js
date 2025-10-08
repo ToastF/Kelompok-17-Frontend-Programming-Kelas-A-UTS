@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   const detailContainer = document.getElementById("cuisine-detail");
-
-  // ✅ Ambil data dari LocalStorage, bukan dari JSON
   const cuisines = JSON.parse(localStorage.getItem("cuisines")) || [];
 
   // Cari data berdasarkan ID

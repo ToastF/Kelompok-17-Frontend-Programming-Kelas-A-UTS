@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mengambil semua makanan dengan provinsi
   function getProvinces() {
     // Filter data yang tidak punya provinsi agar tidak muncul di dropdown
+    return [...new Set(cuisines.map(c=>c.provinsi))].sort();
   }
 
   // Render atau tunjukkan dropdown dengan list provinsi pad
@@ -329,12 +330,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault(); currentView = "home"; setActive(navHome); 
     document.querySelector('.search-container').style.display = "flex"; 
     renderResults(cuisines); 
-  });
-  
-  navFavs.addEventListener("click", e => { 
-    e.preventDefault(); currentView = "favorites"; setActive(navFavs); 
-    document.querySelector('.search-container').style.display = "none"; 
-    renderResults(cuisines.filter(c => favorites.includes(c.id))); 
   });
 
   // LOCAL

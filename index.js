@@ -1,14 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  // =================================  Landing Page  ================================= //
+
   const landingPageElement = document.getElementById('landing-page');
+  // cek jika landing page ada
   if (landingPageElement) {
+    // gambar yang ingin di display pada landing page
     const images = ['images/makanan.jpg', 'images/makanan2.jpg', 'images/makanan3.jpg'];
+    // gambar dimulai dari gambar pertama
     let currentImageIndex = 0;
+
+    // fungsi untuk mengubah gambar pada landing page
     function changeBackgroundImage() {
       landingPageElement.style.backgroundImage = `url('${images[currentImageIndex]}')`;
       currentImageIndex = (currentImageIndex + 1) % images.length;
     }
     changeBackgroundImage();
+
+    // ubah setiap 5 detik
     setInterval(changeBackgroundImage, 5000);
   }
   
@@ -81,13 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("makanan.json")
     .then(res => res.json())
     .then(data => {
+      // inisialisasi, jika pertama kali memasuki website, simpan json ke dalam local storage
       if (!localStorage.getItem("cuisines")) {
         localStorage.setItem("cuisines", JSON.stringify(data));
       }
+
+      // load makanan awal
       cuisines = JSON.parse(localStorage.getItem("cuisines"));
       loadInitialCuisines();
       renderResults(cuisines);
 
+      // makanan featured dalam hero
       const featuredIds = ["rendang", "mie aceh", "bubur pedas", "karedok", "bubur manado"];
       featuredFoods = cuisines.filter(c => featuredIds.includes(c.id));
       
@@ -97,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-  // Untuk mengatur kecepatan 1 ke slide lain secara otomatis
+  // Untuk mengatur kecepatan 1 ke slide lain secara otomatis, mulai counter
   function startHeroInterval() {
     clearInterval(heroInterval); 
     heroInterval = setInterval(() => {
@@ -114,13 +127,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =================================  Results  ================================= //
 
+  // fungsi untuk menunjukkan card dalam results
   function renderResults(list) {
-    resultsDiv.classList.add("updating"); // beri fade
-    showSkeletons(); // tunjukkan skeleton
+    resultsDiv.classList.add("updating"); // beri fade saat loading
+    showSkeletons(); // tunjukkan skeleton saat loading
 
     setTimeout(() => {
+      // reset
       resultsDiv.innerHTML = "";
 
+      // membuat kartu
       list.forEach(c => {
           const card = document.createElement("div");
           card.className = "card";
@@ -157,10 +173,11 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsDiv.appendChild(addCard);
       addCard.addEventListener("click", () => openDialog(true));
 
+      // beri event listener pada tombol kartu
       bindFavoriteButtons();
       bindEditButtons();
       bindDeleteButtons();
-      resultsDiv.classList.remove("updating"); 
+      resultsDiv.classList.remove("updating"); // loading selesai
     }, 500); 
   }
 
@@ -194,16 +211,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const item = cuisines.find(c => c.id === id);
         if (!item) return;
 
-        // Prefill modal fields
+        // Prefill modal fields -> agar ketika membuka edit, otomatis menggantikan text dalam modal menjadi versi saat edit
         document.getElementById("modal-title").textContent = "Edit Makanan";
         document.getElementById("food-name").value = item.nama;
         document.getElementById("food-desc").value = item.deskripsi;
         document.getElementById("food-province").value = item.provinsi;
         document.getElementById("food-history").value = item.sejarah;
 
-        // store current edit ID
+        // menyimpan ID untuk edit (agar diketahui makanan yang diedit pada id berapa)
         modal.dataset.editingId = id;
 
+        // buka dialog modal
         openDialog();
       });
     });
@@ -260,6 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mengambil semua makanan dengan provinsi
   function getProvinces() {
     // Filter data yang tidak punya provinsi agar tidak muncul di dropdown
+    return [...new Set(cuisines.map(c=>c.provinsi))].sort();
   }
 
   // Render atau tunjukkan dropdown dengan list provinsi pad
@@ -330,14 +349,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('.search-container').style.display = "flex"; 
     renderResults(cuisines); 
   });
-  
-  navFavs.addEventListener("click", e => { 
-    e.preventDefault(); currentView = "favorites"; setActive(navFavs); 
-    document.querySelector('.search-container').style.display = "none"; 
-    renderResults(cuisines.filter(c => favorites.includes(c.id))); 
-  });
 
-  // LOCAL
+  // =================================  Local/Modal ================================= //
   // init
   async function loadInitialCuisines() {
     const stored = localStorage.getItem('cuisines');
@@ -361,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
-
+  //Fungsi-fungsi CRUD
   function getCuisines() {
     return JSON.parse(localStorage.getItem('cuisines')) || [];
   }

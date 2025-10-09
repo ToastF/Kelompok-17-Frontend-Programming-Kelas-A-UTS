@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     changeBackgroundImage();
 
     // ubah setiap 5 detik
-    setInterval(changeBackgroundImage, 5000);
+    setInterval(changeBackgroundImage, 2000);
   }
   
   // Inisialisasi variabel

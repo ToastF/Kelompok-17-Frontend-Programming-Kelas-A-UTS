@@ -207,7 +207,7 @@ h1.typing {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  animation: typing 3s steps(28, end) infinite alternate,
+  animation: typing 3s steps(25, end) infinite alternate,
     blink 0.5s step-end infinite;
 }
 
@@ -217,7 +217,7 @@ h1.typing {
   }
 
   to {
-    width: 28ch
+    width: 25ch
   }
 }
 
@@ -732,6 +732,17 @@ a.back:hover {
   .detail-content-wrapper {
     flex-direction: row;
   }
+  .navbar {
+    padding: 25px 40px; 
+  }
+
+  .navbar h1 {
+    font-size: 20px; 
+  }
+  
+  .navbar a {
+    font-size: 23px; 
+  }
 }
 
 .stat-item {
@@ -781,7 +792,7 @@ footer {
   }
 
   .navbar h1 {
-    font-size: 22px;
+    font-size: 40px;
   }
 }
 

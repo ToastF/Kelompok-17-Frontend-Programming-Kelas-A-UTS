@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Membaca ID dari parameter URL
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   const detailContainer = document.getElementById("cuisine-detail");
+  // Mengambil list makanan dari storage
   const cuisines = JSON.parse(localStorage.getItem("cuisines")) || [];
 
   // Cari data berdasarkan ID
   const cuisine = cuisines.find(c => c.id === id);
 
+  // Menunjukkan error jika makanan tidak ditemukan
   if (!cuisine) {
     detailContainer.innerHTML = "<p>Makanan tidak ditemukan.</p>";
     return;

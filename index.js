@@ -85,30 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resetHeroInterval();
   });
 
-  // Inisialisasi Hero, mengambil dari JSON terlebih dahulu dan memilih makanan yang akan ditunjukkan
-  // Mengambil data makanan dari file JSON
-  fetch("makanan.json")
-    .then(res => res.json())
-    .then(data => {
-      // inisialisasi, jika pertama kali memasuki website, simpan json ke dalam local storage
-      if (!localStorage.getItem("cuisines")) {
-        localStorage.setItem("cuisines", JSON.stringify(data));
-      }
-
-      // load makanan awal
-      cuisines = JSON.parse(localStorage.getItem("cuisines"));
-      loadInitialCuisines();
-      renderResults(cuisines);
-
-      // makanan featured dalam hero
-      const featuredIds = ["rendang", "mie aceh", "bubur pedas", "karedok", "bubur manado"];
-      featuredFoods = cuisines.filter(c => featuredIds.includes(c.id));
-      
-      if (featuredFoods.length > 0) {
-        updateHeroSection();
-        startHeroInterval();
-      }
-    });
+  // Mengambil data makanan dari file JSON, terdapat pada bagian CRUD, bagian ini set featuredIds untuk hero juga
+  loadInitialCuisines();
 
   // Untuk mengatur kecepatan 1 ke slide lain secara otomatis, mulai counter
   function startHeroInterval() {
@@ -166,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addCard.className = "card add-card";
       addCard.innerHTML = `
         <div class="add-content">
-          <span class="plus-icon">＋</span>
+          <span class="plus-icon">+</span>
           <p>Tambah Makanan</p>
         </div>
       `;
@@ -317,33 +295,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Ketika filter diklik, tunjukkan semua provinsi
   provinceSearchInput.addEventListener('focus', populateProvinceDropdown);
 
+  // Menghilangkan dropdown jika tidak terfokus
   provinceSearchInput.addEventListener("blur", () => {
     setTimeout(() => { provinceList.innerHTML = ""; }, 200);
   });
 
-  // menunjukkan navbar setelah suatu batas tertentu
-  window.addEventListener("scroll", () => {
-    const navbar = document.querySelector(".navbar");
-    const landing = document.getElementById("landing-page");
-
-    if (!navbar || !landing) return;
-
-    const landingBottom = landing.offsetTop + landing.offsetHeight;
-
-    if (window.scrollY > landingBottom - 50) {
-      navbar.classList.add("visible");
-    } else {
-      navbar.classList.remove("visible");
-    }
-  });
-
+  // =================================  Navbar ================================= //
   // Fungsi untuk menentukan status aktif suatu tab navbar
   function setActive(link) {
     document.querySelectorAll(".navbar a").forEach(a => a.classList.remove("active"));
     link.classList.add("active");
   }
 
-  // Tab-tab pada navbar
+  // Tab pada navbar
   navHome.addEventListener("click", e => { 
     e.preventDefault(); currentView = "home"; setActive(navHome); 
     document.querySelector('.search-container').style.display = "flex"; 
@@ -351,13 +315,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =================================  Local/Modal ================================= //
-  // init
+  // init pengambilan data dari JSON ke local storage serta set featuredIds untuk hero section
   async function loadInitialCuisines() {
     const stored = localStorage.getItem('cuisines');
     if (stored) {
       cuisines = JSON.parse(stored);
     } else {
-      const response = await fetch('data/makanan.json');
+      const response = await fetch('makanan.json');
       cuisines = await response.json();
       localStorage.setItem('cuisines', JSON.stringify(cuisines));
     }
@@ -372,6 +336,18 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       img.src = c.gambar;
     });
+
+    renderResults(cuisines);
+
+    // makanan featured untuk hero section
+    const featuredIds = ["rendang", "mie aceh", "bubur pedas", "karedok", "bubur manado"];
+    featuredFoods = cuisines.filter(c => featuredIds.includes(c.id));
+
+    if (featuredFoods.length > 0) {
+      updateHeroSection();
+      startHeroInterval();
+    }
+
   }
   
   //Fungsi-fungsi CRUD
@@ -470,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // untuk save image
+    // untuk save image, konversi image menjadi string untuk disimpan dalam storage
     const toBase64 = file => new Promise((res, rej) => {
       const reader = new FileReader();
       reader.onload = () => res(reader.result);

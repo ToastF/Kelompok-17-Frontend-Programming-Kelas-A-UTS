@@ -1,8 +1,10 @@
+/* Menggunakan border-box karena sudah meliputi tinggi dan lebar */
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
 
+/* memberi border-box yang sama pada semua elemen HTML */
 *,
 *::before,
 *::after {
@@ -10,6 +12,7 @@ html {
 }
 
 /* navbar termasuk dalam kalkulasi navigasi */
+/* saat navigasi melalui anchor tag, diberi margin top untuk mengakomodasi navbar */
 :target {
   scroll-margin-top: 80px;
 }
@@ -25,20 +28,25 @@ body {
 }
 
 /* Memberi background batik pada website */
-/* Menggunakan posisi Z */
+/* Menggunakan posisi Z = -1 untuk membawa background image di belakang website*/
 body::before {
   content: "";
+  /* posisi dan ukuran */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  /* gambar background */
   background-image: url('https://bergaya.id/wp-content/uploads/2020/03/Motif-Batik-Solo.jpg');
+  /* mengulangi background terus-menerus */
   background-repeat: repeat;
+  /* set transparansi dan posisi background */
   opacity: 0.05;
   z-index: -1;
 }
 
+/* Scroll wheel */
 /* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 10px;
@@ -58,9 +66,9 @@ body::before {
 }
 
 .scroll-down-btn {
+  padding: 15px 30px;
   background-color: #8A0101;
   color: white;
-  padding: 15px 30px;
   text-decoration: none;
   font-weight: bold;
   border-radius: 8px;
@@ -78,6 +86,7 @@ body::before {
 
 /* landing page */
 #landing-page {
+  /* posisi dan ukuran */
   height: 100vh;
   width: 100%;
   position: relative;
@@ -123,32 +132,39 @@ body::before {
 
 /*       NavBar       */
 .navbar {
+  /* ukuran */
   opacity: 0; /* Navbar diawali dengan opacity 0 dan akan muncul saat melewati batas tertentu*/
   top: 0;
-  width: 100%;
-  position: absolute;
-  z-index: 1000;
-  background: rgba(24, 24, 24, 0.7);
-  transition: opacity 0.45s ease, background 0.45s ease, transform 0.45s ease;
-  pointer-events: none;
-  transform: translateY(-6px);
   padding: 20px 40px;
+  width: 100%;
+  
+  /* posisi */
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1000;
+  
+  /* background, animasi, dan transisi */
+  background: rgba(24, 24, 24, 0.7);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.45s ease, background 0.45s ease, transform 0.45s ease;
 }
 
+/* navbar ketika memiliki class visible (muncul) */
 .navbar.visible {
   position: fixed;
   top: 0;
   left: 0;
   background: rgba(24, 24, 24, 0.92);
-  opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+  opacity: 1;
 }
 
 .navbar h1 {
@@ -167,37 +183,7 @@ body::before {
   margin-left: 25px;
 }
 
-/* Styling untuk page Tentang Kami */
-.about-container {
-  max-width: 900px;
-  margin: 7rem auto;
-  padding: 30px;
-  background: rgba(42, 42, 42, 0.5); 
-  border-radius: 12px;
-  color: #EAEAEA;
-}
-
-.about-container h1 {
-  font-family: 'Lora', serif;
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 2.5rem;
-}
-
-.about-container video {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 30px;
-}
-
-.about-container p {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  text-align: justify;
-}
-
+/* animasi typing pada navbar */
 h1.typing {
   color: white;
   font-weight: bold;
@@ -241,6 +227,7 @@ h1.typing {
   color: white;
 }
 
+/* animasi ketika hover dan tekan elemen link navbar */
 .navbar a::after {
   content: "";
   display: block;
@@ -260,19 +247,55 @@ h1.typing {
   width: 100%;
 }
 
-/* Hero Section */
+/*       About       */
+.about-container {
+  max-width: 900px;
+  margin: 7rem auto;
+  padding: 30px;
+  background: rgba(42, 42, 42, 0.5); 
+  border-radius: 12px;
+  color: #EAEAEA;
+}
+
+.about-container h1 {
+  font-family: 'Lora', serif;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+}
+
+.about-container video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.about-container p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/*      Hero Section       */
 #hero {
+  /* posisi dan ukuran hero */
   height: 60vh;
+  padding: 40px;
   margin-top: 20vh;
+  align-items: flex-end;
+  display: flex;
+  position: relative;
+
+  /* gambar background hero */
   background-image: url('https://img.freepik.com/premium-photo/typical-indonesian-food-rendang-daging_1128164-196.jpg?w=2000');
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: flex-end;
-  padding: 40px;
-  position: relative;
+  
 }
 
+/* muncul di depan background image hero, berisi content inti dari hero */
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -298,6 +321,7 @@ h1.typing {
   margin: 0 0 20px 0;
 }
 
+/* Tombol kiri dan kanan pada hero */
 .hero-button {
   background-color: #8A0101;
   color: white;
@@ -314,27 +338,36 @@ h1.typing {
 }
 
 .hero-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-  /* Pastikan di atas overlay */
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
+  /* Ukuran */
   width: 50px;
   height: 50px;
-  font-size: 2rem;
-  font-weight: bold;
-  cursor: pointer;
+  top: 50%;
+  
+  /* Posisi */
+  /* Pastikan di atas overlay menggunakan z index*/
+  z-index: 3;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 1;
+  
+  /* Animasi dan penampilan */
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+
+  /* Font */
+  font-size: 2rem;
+  font-weight: bold;
+  
+  /* Transisi dan cursor */
   transition: background-color 0.3s, transform 0.3s;
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  /* Hilangkan highlight biru di mobile */
+  /* Hilangkan highlight biru di mobile menggunakan webkit */
 }
 
 .hero-nav-btn:hover {
@@ -350,7 +383,8 @@ h1.typing {
   right: 20px;
 }
 
-/* Search + Dropdown */
+
+/*      Search dan dropdown filter       */
 .search-container {
   display: flex;
   justify-content: center;
@@ -428,6 +462,7 @@ h1.typing {
 }
 
 
+/*      Results, kartu, dan tombol-tombol di dalamnya       */
 .results {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -439,12 +474,13 @@ h1.typing {
   transition: opacity 0.3s ease;
 }
 
-/* Yang terjadi saat ganti results */
+/* Yang terjadi saat ganti results (loading/updating) */
 .results.updating {
   opacity: 0.4;
   pointer-events: none;
 }
 
+/* Kartu-kartu dalam results */
 .card {
   position: relative;
   background: #2a2a2a;
@@ -568,7 +604,7 @@ h1.typing {
   color: white;
 }
 
-/* Detail Page */
+/*      Detail page       */
 .cuisine-detail {
   position: fixed;
   inset: 0;
@@ -753,7 +789,7 @@ a.back:hover {
   margin-top: 20px;
 }
 
-/* Footer */
+/*      Footer       */
 footer {
   text-align: center;
   padding: 20px;
@@ -789,19 +825,18 @@ footer {
   line-height: 1;
 }
 
-/* Model for input */
-/* ===== Modal Overlay ===== */
+/*      Modal for input       */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* semi-transparent backdrop */
+  background: rgba(0, 0, 0, 0.7); /* semi-transparent backdrop agar user fokus pada modal dan tahu bahwa tidak mengklik tempat lain */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* above everything */
+  z-index: 1000; /* above everything bahkan landing page*/
 }
 
 /* Hidden state */
@@ -809,7 +844,7 @@ footer {
   display: none;
 }
 
-/* ===== Modal Box ===== */
+/* Modal Box  */
 .modal-content {
   background: #2a2a2a;
   padding: 20px 25px;
@@ -860,10 +895,13 @@ footer {
   background: #a30303;
 }
 
+/* Animasi ketika tekan edit/create */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/*      Responsive       */
 
 /* buat Responsif */
 @media (max-width: 1000px) {
